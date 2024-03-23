@@ -5,6 +5,7 @@ import { Button } from "../components/Button"
 import { Heading } from "../components/Heading"
 import { InputBox } from "../components/InputBox"
 import { SubHeading } from "../components/SubHeading"
+import { useNavigate } from "react-router-dom";
 
 export const Signup = () => {
 
@@ -12,6 +13,7 @@ export const Signup = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
     const [password, setPassword] = useState('')
+    const navigate = useNavigate();
     
 
     return <div className="bg-slate-300 h-screen flex justify-center">
@@ -42,6 +44,7 @@ export const Signup = () => {
             });
 
             localStorage.setItem("token", res.data.token);
+            navigate("/dashboard");
 
           }} label={"Sign up"} />
         </div>
