@@ -3,18 +3,33 @@ import { Button } from "./Button"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
+function useDebounce(value, time){
+    const[Dvalue, setDValue] = useState(value);
 
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            setDValue(value)
+        }, time);
+
+        return () => {
+            clearTimeout(timeout)
+        }
+    }, [value])
+
+    return Dvalue;
+}
 export const Users = () => {
     // Replace with backend call
     const [users, setUsers] = useState([]);
     const [filter, setFilter] = useState('');
+    const debouncedValue = useDebounce(filter, 500)
 
     useEffect(() => {
-        axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + filter)
+        axios.get("http://localhost:3000/api/v1/user/bulk?filter=" + debouncedValue)
             .then(res => {
                 setUsers(res.data.user);
             })
-    }, [filter])
+    }, [debouncedValue])
 
     return <>
         <div className="font-bold mt-6 text-lg">
